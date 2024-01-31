@@ -22,7 +22,7 @@ const onSceneReady = (scene) => {
   const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
 
   // Default intensity is 1. Let's dim the light a small amount
-  light.intensity = 0.7;
+  light.intensity = 0.9;
 
   // Our built-in 'box' shape.
   box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
@@ -42,12 +42,14 @@ const onRender = (scene) => {
     const deltaTimeInMillis = scene.getEngine().getDeltaTime();
 
     const rpm = 10;
-    box.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+    box.rotation.y += (rpm / 120) * Math.PI * 2 * (deltaTimeInMillis / 1000);
   }
 };
 
 export default () => (
-  <div>
-    <SceneComponent antialias onSceneReady={onSceneReady} onRender={onRender} id="my-canvas" />
+  <div className='scene-container-wrapper'>
+    <div className="scene-container">
+      <SceneComponent antialias onSceneReady={onSceneReady} onRender={onRender} id="my-canvas" />
+    </div>
   </div>
 );
