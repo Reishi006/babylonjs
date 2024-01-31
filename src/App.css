@@ -11,3 +11,8 @@ body, html {
   justify-content: center;
   align-items: center
 }
+
+#my-canvas {
+  width: 160vh;
+  height: 90vh;
+}
