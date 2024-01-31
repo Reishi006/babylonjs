@@ -1,3 +1,13 @@
-#my-canvas {
-  margin: 0 auto;
+body, html {
+  min-width: 100vh;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #b1b1b1;
+}
+
+.scene-container-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center
 }
