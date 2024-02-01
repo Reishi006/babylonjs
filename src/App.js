@@ -1,5 +1,5 @@
 import React from "react";
-import { Color4, FreeCamera, Vector3, HemisphericLight, MeshBuilder, ArcRotateCamera } from "@babylonjs/core";
+import { Color4, StandardMaterial, FreeCamera, Vector3, HemisphericLight, MeshBuilder, ArcRotateCamera } from "@babylonjs/core";
 import SceneComponent from "./SceneComponent"; // uses above component in same directory
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
 import "./App.css";
@@ -48,13 +48,16 @@ const onSceneReady = (scene) => {
   let zPosition = box.position.z;
 
   for (let i = 1; i < Math.pow(widthInBlocks, 2); i++) {
-    let basicBox = box.createInstance('basicBox' + i);
+    let basicBox = box.clone('basicBox' + i);
+    let boxMat = new StandardMaterial('mat' + i, scene);
+    boxMat.diffuseColor = new Color4(Math.random(), Math.random(), Math.random(), 1);
+    basicBox.material = boxMat;
     let x = i % 8;
     console.log(x);
     console.log(`i: ${i}`);
     xPosition = (x - (x*0.2));
     basicBox.position.x = xPosition;
-    if (i % 8 == 0) {
+    if (i % widthInBlocks == 0) {
       zRow++;
       zPosition -= cubeSize;
     }
