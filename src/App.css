@@ -1,18 +1,17 @@
 body, html {
+  overflow: hidden;
   min-width: 100vh;
   min-height: 100vh;
   margin: 0;
   background-color: #b1b1b1;
 }
 
-.scene-container-wrapper {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center
+.scene-container {
+  width: 100%;
+  height: 100%;
 }
 
 #my-canvas {
-  width: 160vh;
-  height: 90vh;
+  width: 100%;
+  height: 100%;
 }
