@@ -47,8 +47,8 @@ const onSceneReady = (scene) => {
 
   for (let i = 0; i < Math.pow(widthInBlocks, 2); i++) {
     const faceColors = new Array(6);
-    faceColors[4] = new Color4(((seed%255) + 600)/1000, ((seed%255))/1000, ((seed%255) + 100)/1000, 1);
-    faceColors[1] = new Color4(0, 1, 0, 1);
+    faceColors[4] = new Color4(((seed%255) + 600 - (Math.random()*500))/1000, ((seed%255))/1000, ((seed%255) + 100)/1000, 1);
+    faceColors[1] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
     box = MeshBuilder.CreateBox(`box${i}`, { size: cubeSize, faceColors: faceColors, }, scene);
     box.edgesWidth = 1;
     //(seed%255)/1000
