@@ -1,15 +1,16 @@
 import React from "react";
-import { FreeCamera, Vector3, HemisphericLight, MeshBuilder } from "@babylonjs/core";
+import { Color4, FreeCamera, Vector3, HemisphericLight, MeshBuilder, ArcRotateCamera } from "@babylonjs/core";
 import SceneComponent from "./SceneComponent"; // uses above component in same directory
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
 import "./App.css";
 
 let box;
-let sphere;
+let box2;
+/* let sphere; */
 
 const onSceneReady = (scene) => {
   // This creates and positions a free camera (non-mesh)
-  const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+  const camera = new ArcRotateCamera("camera1", -Math.PI/2, 1, 10, new Vector3(0, 0, 0), scene);
 
   // This targets the camera to scene origin
   camera.setTarget(Vector3.Zero());
@@ -20,24 +21,31 @@ const onSceneReady = (scene) => {
   camera.attachControl(canvas, true);
 
   // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-  const light = new HemisphericLight("light", new Vector3(1, 1, 1), scene);
-  const light2 = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+  const light = new HemisphericLight("light", new Vector3(0, 0.9, 0), scene);
+  //const light2 = new HemisphericLight("light", new Vector3(-1, 1, -1), scene);
 
   // Default intensity is 1. Let's dim the light a small amount
-  light.intensity = 0.5;
-  light2.intensity = 0.5
+  light.intensity = 1;
+  //light2.intensity = 0.5;
+
+  const faceColors = new Array(6);
+  faceColors[4] = new Color4(1, 0, 0, 1);
+  faceColors[1] = new Color4(0, 1, 0, 1);
 
   // Our built-in 'box' shape.
-  box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
-  sphere = MeshBuilder.CreateSphere('sphere', { size: 1 }, scene);
+  box = MeshBuilder.CreateBox("box", { size: 0.8, faceColors: faceColors, }, scene);
+  box.edgesWidth = 1;
+  box.edgesColor = new Color4(0, 0, 0, 1);
+  box.enableEdgesRendering();
+  let basicBox = box.createInstance('basicBox');
+  basicBox.position.x = box.position.x + 0.8;
+  /* sphere = MeshBuilder.CreateSphere('sphere', { size: 1 }, scene); */
 
-  // Move the box upward 1/2 its height
-  box.position.y = 1;
-  sphere.position.y = 2;
-  sphere.position.x = 2
+
+  box.edgesShareWithInstances = true;
 
   // Our built-in 'ground' shape.
-  MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene);
+  //MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene);
 };
 
 /**
@@ -48,14 +56,16 @@ const onRender = (scene) => {
     const deltaTimeInMillis = scene.getEngine().getDeltaTime();
 
     const rpm = 10;
-    box.rotation.y += (rpm / 120) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+    //box.rotation.y += (rpm / 120) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+
   }
 };
-
+{/* <div className='scene-container-wrapper'>
+    
+    </div> */}
 export default () => (
-  <div className='scene-container-wrapper'>
-    <div className="scene-container">
-      <SceneComponent antialias onSceneReady={onSceneReady} onRender={onRender} id="my-canvas" />
-    </div>
+  
+  <div className="scene-container">
+    <SceneComponent antialias onSceneReady={onSceneReady} onRender={onRender} id="my-canvas" />
   </div>
 );
