@@ -6,14 +6,18 @@ import "./App.css";
 
 let box;
 let box2;
+
+let cubeSize = 0.8;
+let widthInBlocks = 8;
 /* let sphere; */
 
 const onSceneReady = (scene) => {
   // This creates and positions a free camera (non-mesh)
   const camera = new ArcRotateCamera("camera1", -Math.PI/2, 1, 10, new Vector3(0, 0, 0), scene);
 
+  let centerCoords = (widthInBlocks*cubeSize)/2 - (cubeSize/2);
   // This targets the camera to scene origin
-  camera.setTarget(Vector3.Zero());
+  camera.setTarget(new Vector3(centerCoords, 0, -centerCoords));
 
   const canvas = scene.getEngine().getRenderingCanvas();
 
@@ -33,12 +37,29 @@ const onSceneReady = (scene) => {
   faceColors[1] = new Color4(0, 1, 0, 1);
 
   // Our built-in 'box' shape.
-  box = MeshBuilder.CreateBox("box", { size: 0.8, faceColors: faceColors, }, scene);
+  box = MeshBuilder.CreateBox("box", { size: cubeSize, faceColors: faceColors, }, scene);
   box.edgesWidth = 1;
   box.edgesColor = new Color4(0, 0, 0, 1);
   box.enableEdgesRendering();
-  let basicBox = box.createInstance('basicBox');
-  basicBox.position.x = box.position.x + 0.8;
+
+  let zRow = 1;
+  let xPosition = box.position.x;
+  console.log(`xPosition on definition: ${xPosition}`);
+  let zPosition = box.position.z;
+
+  for (let i = 1; i < Math.pow(widthInBlocks, 2); i++) {
+    let basicBox = box.createInstance('basicBox' + i);
+    let x = i % 8;
+    console.log(x);
+    console.log(`i: ${i}`);
+    xPosition = (x - (x*0.2));
+    basicBox.position.x = xPosition;
+    if (i % 8 == 0) {
+      zRow++;
+      zPosition -= cubeSize;
+    }
+    basicBox.position.z = zPosition;
+  }
   /* sphere = MeshBuilder.CreateSphere('sphere', { size: 1 }, scene); */
 
 
@@ -60,9 +81,6 @@ const onRender = (scene) => {
 
   }
 };
-{/* <div className='scene-container-wrapper'>
-    
-    </div> */}
 export default () => (
   
   <div className="scene-container">
