@@ -15,7 +15,7 @@ let seed = Math.random()*100000000;
 
 const onSceneReady = (scene) => {
   // This creates and positions a free camera (non-mesh)
-  const camera = new ArcRotateCamera("camera1", -Math.PI/2, 1, 10, new Vector3(0, 0, 0), scene);
+  const camera = new ArcRotateCamera("camera1", -Math.PI/2, 1, 40, new Vector3(0, 0, 0), scene);
 
   let centerCoords = (widthInBlocks*cubeSize)/2 - cubeSize;
   // This targets the camera to scene origin
@@ -28,11 +28,11 @@ const onSceneReady = (scene) => {
 
   // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
   const light = new HemisphericLight("light", new Vector3(0, 0.5, 0), scene);
-  //const light2 = new HemisphericLight("light", new Vector3(-1, 1, -1), scene);
+  const light2 = new HemisphericLight("light", new Vector3(0, -0.5, 0), scene);
 
   // Default intensity is 1. Let's dim the light a small amount
   light.intensity = 1;
-  //light2.intensity = 0.5;
+  light2.intensity = 0.3;
 
   // Our built-in 'box' shape.
   /* box = MeshBuilder.CreateBox("box", { size: cubeSize, faceColors: faceColors, }, scene);
@@ -48,7 +48,11 @@ const onSceneReady = (scene) => {
   for (let i = 0; i < Math.pow(widthInBlocks, 2); i++) {
     const faceColors = new Array(6);
     faceColors[4] = new Color4(((seed%255) + 600 - (Math.random()*500))/1000, ((seed%255))/1000, ((seed%255) + 100)/1000, 1);
-    faceColors[1] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
+    faceColors[0] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
+    faceColors[1] = new Color4(0, ((seed%255) + 600 - (Math.random()*100))/1000, 0, 1);
+    faceColors[2] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
+    faceColors[3] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
+    faceColors[5] = new Color4(0, ((seed%255) + 100 - (Math.random()*200))/1000, ((seed%255) - (Math.random()*100))/1000, 1);
     box = MeshBuilder.CreateBox(`box${i}`, { size: cubeSize, faceColors: faceColors, }, scene);
     box.edgesWidth = 1;
     //(seed%255)/1000
