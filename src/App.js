@@ -8,9 +8,10 @@ let box;
 let sphere;
 
 let cubeSize = 0.8;
-let widthInBlocks = 15;
+let widthInBlocks = 32;
 
-let seed = Math.random()*100000000;
+let seedMultiplier = 100000000;
+let seed = 0.6578997*seedMultiplier;
 /* let sphere; */
 
 const onSceneReady = (scene) => {
@@ -45,11 +46,13 @@ const onSceneReady = (scene) => {
   console.log(`xPosition on definition: ${xPosition}`);
   let zPosition = 0;
 
+  let perlinArr = Array(Math.pow(widthInBlocks, 2) * Math.pow(widthInBlocks, 2));
+
   for (let i = 0; i < Math.pow(widthInBlocks, 2); i++) {
     const faceColors = new Array(6);
     faceColors[4] = new Color4(((seed%255) + 600 - (Math.random()*500))/1000, ((seed%255))/1000, ((seed%255) + 100)/1000, 1);
     faceColors[0] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
-    faceColors[1] = new Color4(0, ((seed%255) + 600 - (Math.random()*100))/1000, 0, 1);
+    faceColors[1] = new Color4(0, ((seed%255) + 800 - (Math.random()*100))/1000, 0, 1);
     faceColors[2] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
     faceColors[3] = new Color4(0, ((seed%255) + 500 - (Math.random()*200))/1000, 0, 1);
     faceColors[5] = new Color4(0, ((seed%255) + 100 - (Math.random()*200))/1000, ((seed%255) - (Math.random()*100))/1000, 1);
@@ -60,8 +63,8 @@ const onSceneReady = (scene) => {
     box.edgesColor = new Color4(0, 0, 0, 1);
     box.enableEdgesRendering();
     let x = i % widthInBlocks;
-    console.log(x);
-    console.log(`i: ${i}`);
+    //console.log(x);
+    //console.log(`i: ${i}`);
     xPosition = (x - (x*0.2));
     box.position.x = xPosition;
     if (i % widthInBlocks == 0) {
@@ -69,7 +72,15 @@ const onSceneReady = (scene) => {
       zPosition -= cubeSize;
     }
     box.position.z = zPosition;
+
+    perlinArr.push([
+      (xPosition - (cubeSize/2)).toFixed(2),
+      (xPosition + (cubeSize/2)).toFixed(2),
+      (zPosition - (cubeSize/2)).toFixed(2),
+      (zPosition + (cubeSize/2)).toFixed(2),
+    ]);
   }
+  console.log(perlinArr);
   //sphere = MeshBuilder.CreateSphere('sphere', { size: 0.1 }, scene);
 
 
